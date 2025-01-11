@@ -12,12 +12,14 @@
   "annotations": {
     "list": []
   },
-  "description": "Flyte User Dashboard. This is great to get a birds-eye and drill down view of executions in your Flyte cluster. Useful for the user.",
+  "description": "Flyte User Dashboard. It's designed to give an overview of execution status and resource consumption.",
   "editable": false,
   "gnetId": null,
+  "graphTooltip": 0,
   "hideControls": false,
   "id": null,
   "links": [],
+  "panels": [],
   "refresh": "10s",
   "rows": [
     {
@@ -33,6 +35,15 @@
           "description": null,
           "editable": true,
           "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": ""
+            }
+          },
           "fill": 1,
           "grid": {
             "threshold1": null,
@@ -40,6 +51,7 @@
             "threshold2": null,
             "threshold2Color": "rgba(234, 112, 112, 0.22)"
           },
+          "gridPos": null,
           "height": null,
           "hideTimeOverride": false,
           "id": 1,
@@ -65,6 +77,7 @@
           "linewidth": 2,
           "links": [],
           "maxDataPoints": 100,
+          "maxPerRow": null,
           "minSpan": null,
           "nullPointMode": "connected",
           "options": {
@@ -76,14 +89,15 @@
           "points": false,
           "renderer": "flot",
           "repeat": null,
+          "repeatDirection": null,
           "seriesOverrides": [],
           "span": 2,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "datasource": "",
-              "expr": "sum(rate(flyte:propeller:all:workflow:accepted{project=~\"$project\", domain=~\"$domain\", wf=~\"$workflow\"}[5m]))",
+              "datasource": null,
+              "expr": "avg(flyte:propeller:all:workflow:accepted{project=~\"$project\", domain=~\"$domain\", wf=~\"$workflow\"})",
               "format": "time_series",
               "hide": false,
               "instant": false,
@@ -91,24 +105,30 @@
               "intervalFactor": 2,
               "legendFormat": "",
               "metric": "",
+              "query": "avg(flyte:propeller:all:workflow:accepted{project=~\"$project\", domain=~\"$domain\", wf=~\"$workflow\"})",
               "refId": "A",
               "step": 10,
               "target": ""
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Accepted Workflow",
+          "title": "Accepted Workflows (avg)",
           "tooltip": {
             "msResolution": true,
             "shared": true,
             "sort": 0,
             "value_type": "cumulative"
           },
+          "transformations": [],
           "transparent": false,
           "type": "graph",
           "xaxis": {
-            "show": true
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
           },
           "yaxes": [
             {
@@ -117,7 +137,7 @@
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": 0,
+              "min": null,
               "show": true
             },
             {
@@ -126,10 +146,14 @@
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": 0,
+              "min": null,
               "show": true
             }
-          ]
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": 0
+          }
         },
         {
           "aliasColors": {},
@@ -139,6 +163,15 @@
           "description": null,
           "editable": true,
           "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": ""
+            }
+          },
           "fill": 1,
           "grid": {
             "threshold1": null,
@@ -146,6 +179,7 @@
             "threshold2": null,
             "threshold2Color": "rgba(234, 112, 112, 0.22)"
           },
+          "gridPos": null,
           "height": null,
           "hideTimeOverride": false,
           "id": 2,
@@ -171,6 +205,7 @@
           "linewidth": 2,
           "links": [],
           "maxDataPoints": 100,
+          "maxPerRow": null,
           "minSpan": null,
           "nullPointMode": "connected",
           "options": {
@@ -182,13 +217,14 @@
           "points": false,
           "renderer": "flot",
           "repeat": null,
+          "repeatDirection": null,
           "seriesOverrides": [],
           "span": 2,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "datasource": "",
+              "datasource": null,
               "expr": "sum(rate(flyte:propeller:all:workflow:success_duration_ms_count{project=~\"$project\", domain=~\"$domain\", wf=~\"$workflow\"}[5m]))",
               "format": "time_series",
               "hide": false,
@@ -197,24 +233,30 @@
               "intervalFactor": 2,
               "legendFormat": "",
               "metric": "",
+              "query": "sum(rate(flyte:propeller:all:workflow:success_duration_ms_count{project=~\"$project\", domain=~\"$domain\", wf=~\"$workflow\"}[5m]))",
               "refId": "A",
               "step": 10,
               "target": ""
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Successful Workflow",
+          "title": "Workflow success rate",
           "tooltip": {
             "msResolution": true,
             "shared": true,
             "sort": 0,
             "value_type": "cumulative"
           },
+          "transformations": [],
           "transparent": false,
           "type": "graph",
           "xaxis": {
-            "show": true
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
           },
           "yaxes": [
             {
@@ -223,7 +265,7 @@
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": 0,
+              "min": null,
               "show": true
             },
             {
@@ -232,10 +274,14 @@
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": 0,
+              "min": null,
               "show": true
             }
-          ]
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": 0
+          }
         },
         {
           "aliasColors": {},
@@ -245,6 +291,15 @@
           "description": null,
           "editable": true,
           "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": ""
+            }
+          },
           "fill": 1,
           "grid": {
             "threshold1": null,
@@ -252,6 +307,7 @@
             "threshold2": null,
             "threshold2Color": "rgba(234, 112, 112, 0.22)"
           },
+          "gridPos": null,
           "height": null,
           "hideTimeOverride": false,
           "id": 3,
@@ -277,6 +333,7 @@
           "linewidth": 2,
           "links": [],
           "maxDataPoints": 100,
+          "maxPerRow": null,
           "minSpan": null,
           "nullPointMode": "connected",
           "options": {
@@ -288,13 +345,14 @@
           "points": false,
           "renderer": "flot",
           "repeat": null,
+          "repeatDirection": null,
           "seriesOverrides": [],
           "span": 2,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "datasource": "",
+              "datasource": null,
               "expr": "sum(rate(flyte:propeller:all:workflow:failure_duration_ms_count{project=~\"$project\", domain=~\"$domain\", wf=~\"$workflow\"}[5m]))",
               "format": "time_series",
               "hide": false,
@@ -303,24 +361,30 @@
               "intervalFactor": 2,
               "legendFormat": "",
               "metric": "",
+              "query": "sum(rate(flyte:propeller:all:workflow:failure_duration_ms_count{project=~\"$project\", domain=~\"$domain\", wf=~\"$workflow\"}[5m]))",
               "refId": "A",
               "step": 10,
               "target": ""
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Failed Workflow",
+          "title": "Workflow failure rate",
           "tooltip": {
             "msResolution": true,
             "shared": true,
             "sort": 0,
             "value_type": "cumulative"
           },
+          "transformations": [],
           "transparent": false,
           "type": "graph",
           "xaxis": {
-            "show": true
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
           },
           "yaxes": [
             {
@@ -329,7 +393,7 @@
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": 0,
+              "min": null,
               "show": true
             },
             {
@@ -338,10 +402,14 @@
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": 0,
+              "min": null,
               "show": true
             }
-          ]
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": 0
+          }
         },
         {
           "aliasColors": {},
@@ -351,6 +419,15 @@
           "description": null,
           "editable": true,
           "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": ""
+            }
+          },
           "fill": 1,
           "grid": {
             "threshold1": null,
@@ -358,6 +435,7 @@
             "threshold2": null,
             "threshold2Color": "rgba(234, 112, 112, 0.22)"
           },
+          "gridPos": null,
           "height": null,
           "hideTimeOverride": false,
           "id": 4,
@@ -383,6 +461,7 @@
           "linewidth": 2,
           "links": [],
           "maxDataPoints": 100,
+          "maxPerRow": null,
           "minSpan": null,
           "nullPointMode": "connected",
           "options": {
@@ -394,14 +473,15 @@
           "points": false,
           "renderer": "flot",
           "repeat": null,
+          "repeatDirection": null,
           "seriesOverrides": [],
           "span": 2,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "datasource": "",
-              "expr": "sum(rate(flyte:propeller:all:workflow:workflow_aborted{project=~\"$project\", domain=~\"$domain\", wf=~\"$workflow\"}[5m]))",
+              "datasource": null,
+              "expr": "avg_over_time(flyte:propeller:all:workflow:workflow_aborted{project=~\"$project\", domain=~\"$domain\", wf=~\"$workflow\"}[5m])",
               "format": "time_series",
               "hide": false,
               "instant": false,
@@ -409,33 +489,39 @@
               "intervalFactor": 2,
               "legendFormat": "",
               "metric": "",
+              "query": "avg_over_time(flyte:propeller:all:workflow:workflow_aborted{project=~\"$project\", domain=~\"$domain\", wf=~\"$workflow\"}[5m])",
               "refId": "A",
               "step": 10,
               "target": ""
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Aborted Workflow",
+          "title": "Aborted Workflows (avg)",
           "tooltip": {
             "msResolution": true,
             "shared": true,
             "sort": 0,
             "value_type": "cumulative"
           },
+          "transformations": [],
           "transparent": false,
           "type": "graph",
           "xaxis": {
-            "show": true
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
           },
           "yaxes": [
             {
               "decimals": null,
-              "format": "ops",
+              "format": "short",
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": 0,
+              "min": null,
               "show": true
             },
             {
@@ -444,70 +530,103 @@
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": 0,
+              "min": null,
               "show": true
             }
-          ]
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": 0
+          }
         },
         {
-          "aliasColors": {},
-          "bars": false,
           "cacheTimeout": null,
           "datasource": "${DS_PROM}",
           "description": null,
           "editable": true,
           "error": false,
-          "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          "fieldConfig": {
+            "defaults": {
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "index": 0,
+                    "line": true,
+                    "op": "gt",
+                    "value": "null",
+                    "yaxis": "left"
+                  },
+                  {
+                    "color": "red",
+                    "index": 1,
+                    "line": true,
+                    "op": "gt",
+                    "value": 80.0,
+                    "yaxis": "left"
+                  }
+                ]
+              }
+            }
           },
+          "gridPos": null,
           "height": null,
           "hideTimeOverride": false,
           "id": 5,
           "interval": null,
-          "isNew": true,
-          "legend": {
-            "alignAsTable": false,
-            "avg": false,
-            "current": false,
-            "hideEmpty": false,
-            "hideZero": false,
-            "max": false,
-            "min": false,
-            "rightSide": false,
-            "show": true,
-            "sideWidth": null,
-            "sort": null,
-            "sortDesc": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 2,
           "links": [],
           "maxDataPoints": 100,
+          "maxPerRow": null,
           "minSpan": null,
-          "nullPointMode": "connected",
           "options": {
-            "alertThreshold": true,
-            "dataLinks": []
+            "displayMode": "lcd",
+            "fieldOptions": {
+              "calcs": [
+                "mean"
+              ],
+              "defaults": {
+                "decimals": null,
+                "links": [],
+                "max": 100,
+                "min": 0,
+                "title": null,
+                "unit": "s"
+              },
+              "limit": null,
+              "mappings": [],
+              "override": {},
+              "thresholds": [
+                {
+                  "color": "green",
+                  "index": 0,
+                  "line": true,
+                  "op": "gt",
+                  "value": "null",
+                  "yaxis": "left"
+                },
+                {
+                  "color": "red",
+                  "index": 1,
+                  "line": true,
+                  "op": "gt",
+                  "value": 80.0,
+                  "yaxis": "left"
+                }
+              ],
+              "values": false
+            },
+            "orientation": "horizontal",
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true
           },
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
           "repeat": null,
-          "seriesOverrides": [],
+          "repeatDirection": null,
           "span": 2,
-          "stack": false,
-          "steppedLine": false,
           "targets": [
             {
-              "datasource": "",
-              "expr": "sum(flyte:propeller:all:workflow:success_duration_ms{project=~\"$project\", domain=~\"$domain\", wf=~\"$workflow\"}) by (quantile)",
+              "datasource": null,
+              "expr": "(avg(flyte:propeller:all:workflow:success_duration_ms{project=~\"$project\", domain=~\"$domain\", wf=~\"$workflow\"}) by(quantile))/1000",
               "format": "time_series",
               "hide": false,
               "instant": false,
@@ -515,6 +634,7 @@
               "intervalFactor": 2,
               "legendFormat": "",
               "metric": "",
+              "query": "(avg(flyte:propeller:all:workflow:success_duration_ms{project=~\"$project\", domain=~\"$domain\", wf=~\"$workflow\"}) by(quantile))/1000",
               "refId": "A",
               "step": 10,
               "target": ""
@@ -522,98 +642,99 @@
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Successful workflow execution time by Quantile",
-          "tooltip": {
-            "msResolution": true,
-            "shared": true,
-            "sort": 0,
-            "value_type": "cumulative"
-          },
+          "title": "Successful wf execution duration by quantile",
+          "transformations": [],
           "transparent": false,
-          "type": "graph",
-          "xaxis": {
-            "show": true
-          },
-          "yaxes": [
-            {
-              "decimals": null,
-              "format": "ms",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "decimals": null,
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            }
-          ]
+          "type": "bargauge"
         },
         {
-          "aliasColors": {},
-          "bars": false,
           "cacheTimeout": null,
           "datasource": "${DS_PROM}",
           "description": null,
           "editable": true,
           "error": false,
-          "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          "fieldConfig": {
+            "defaults": {
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "index": 0,
+                    "line": true,
+                    "op": "gt",
+                    "value": "null",
+                    "yaxis": "left"
+                  },
+                  {
+                    "color": "red",
+                    "index": 1,
+                    "line": true,
+                    "op": "gt",
+                    "value": 80.0,
+                    "yaxis": "left"
+                  }
+                ]
+              }
+            }
           },
+          "gridPos": null,
           "height": null,
           "hideTimeOverride": false,
           "id": 6,
           "interval": null,
-          "isNew": true,
-          "legend": {
-            "alignAsTable": false,
-            "avg": false,
-            "current": false,
-            "hideEmpty": false,
-            "hideZero": false,
-            "max": false,
-            "min": false,
-            "rightSide": false,
-            "show": true,
-            "sideWidth": null,
-            "sort": null,
-            "sortDesc": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 2,
           "links": [],
           "maxDataPoints": 100,
+          "maxPerRow": null,
           "minSpan": null,
-          "nullPointMode": "connected",
           "options": {
-            "alertThreshold": true,
-            "dataLinks": []
+            "displayMode": "lcd",
+            "fieldOptions": {
+              "calcs": [
+                "mean"
+              ],
+              "defaults": {
+                "decimals": null,
+                "links": [],
+                "max": 100,
+                "min": 0,
+                "title": null,
+                "unit": "s"
+              },
+              "limit": null,
+              "mappings": [],
+              "override": {},
+              "thresholds": [
+                {
+                  "color": "green",
+                  "index": 0,
+                  "line": true,
+                  "op": "gt",
+                  "value": "null",
+                  "yaxis": "left"
+                },
+                {
+                  "color": "red",
+                  "index": 1,
+                  "line": true,
+                  "op": "gt",
+                  "value": 80.0,
+                  "yaxis": "left"
+                }
+              ],
+              "values": false
+            },
+            "orientation": "horizontal",
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true
           },
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
           "repeat": null,
-          "seriesOverrides": [],
+          "repeatDirection": null,
           "span": 2,
-          "stack": false,
-          "steppedLine": false,
           "targets": [
             {
-              "datasource": "",
-              "expr": "sum(flyte:propeller:all:workflow:failed_duration_ms{project=~\"$project\", domain=~\"$domain\", wf=~\"$workflow\"}) by (quantile)",
+              "datasource": null,
+              "expr": "(avg(flyte:propeller:all:workflow:failure_duration_ms{project=~\"$project\", domain=~\"$domain\", wf=~\"$workflow\"}) by(quantile))/1000",
               "format": "time_series",
               "hide": false,
               "instant": false,
@@ -621,6 +742,7 @@
               "intervalFactor": 2,
               "legendFormat": "",
               "metric": "",
+              "query": "(avg(flyte:propeller:all:workflow:failure_duration_ms{project=~\"$project\", domain=~\"$domain\", wf=~\"$workflow\"}) by(quantile))/1000",
               "refId": "A",
               "step": 10,
               "target": ""
@@ -628,39 +750,21 @@
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Failed workflow execution time by Quantile",
-          "tooltip": {
-            "msResolution": true,
-            "shared": true,
-            "sort": 0,
-            "value_type": "cumulative"
-          },
+          "title": "Failed wf execution duration by quantile",
+          "transformations": [],
           "transparent": false,
-          "type": "graph",
-          "xaxis": {
-            "show": true
-          },
-          "yaxes": [
-            {
-              "decimals": null,
-              "format": "ms",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "decimals": null,
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            }
-          ]
-        },
+          "type": "bargauge"
+        }
+      ],
+      "repeat": null,
+      "showTitle": true,
+      "title": "Workflow Stats"
+    },
+    {
+      "collapse": true,
+      "editable": true,
+      "height": "250px",
+      "panels": [
         {
           "aliasColors": {},
           "bars": false,
@@ -669,6 +773,15 @@
           "description": null,
           "editable": true,
           "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": ""
+            }
+          },
           "fill": 1,
           "grid": {
             "threshold1": null,
@@ -676,6 +789,7 @@
             "threshold2": null,
             "threshold2Color": "rgba(234, 112, 112, 0.22)"
           },
+          "gridPos": null,
           "height": null,
           "hideTimeOverride": false,
           "id": 7,
@@ -701,6 +815,7 @@
           "linewidth": 2,
           "links": [],
           "maxDataPoints": 100,
+          "maxPerRow": null,
           "minSpan": null,
           "nullPointMode": "connected",
           "options": {
@@ -712,48 +827,70 @@
           "points": false,
           "renderer": "flot",
           "repeat": null,
+          "repeatDirection": null,
           "seriesOverrides": [],
-          "span": 2,
+          "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "datasource": "",
-              "expr": "sum(flyte:propeller:all:node:queueing_latency_ms{project=~\"$project\", domain=~\"$domain\", wf=~\"$workflow\"}) by (quantile)",
+              "datasource": null,
+              "expr": "kube_resourcequota{resource=\"limits.cpu\", namespace=\"$project-$domain\", type=\"hard\"}",
               "format": "time_series",
               "hide": false,
               "instant": false,
               "interval": "",
               "intervalFactor": 2,
-              "legendFormat": "",
+              "legendFormat": "CPU limit",
               "metric": "",
+              "query": "kube_resourcequota{resource=\"limits.cpu\", namespace=\"$project-$domain\", type=\"hard\"}",
               "refId": "A",
+              "step": 10,
+              "target": ""
+            },
+            {
+              "datasource": null,
+              "expr": "kube_resourcequota{resource=\"limits.cpu\", namespace=\"$project-$domain\", type=\"used\"}",
+              "format": "time_series",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "CPU requested",
+              "metric": "",
+              "query": "kube_resourcequota{resource=\"limits.cpu\", namespace=\"$project-$domain\", type=\"used\"}",
+              "refId": "B",
               "step": 10,
               "target": ""
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Node queuing latency by Quantile",
+          "title": "CPU Limit vs requested by namespace",
           "tooltip": {
             "msResolution": true,
             "shared": true,
             "sort": 0,
             "value_type": "cumulative"
           },
+          "transformations": [],
           "transparent": false,
           "type": "graph",
           "xaxis": {
-            "show": true
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
           },
           "yaxes": [
             {
               "decimals": null,
-              "format": "ms",
+              "format": "short",
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": 0,
+              "min": null,
               "show": true
             },
             {
@@ -762,21 +899,15 @@
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": 0,
+              "min": null,
               "show": true
             }
-          ]
-        }
-      ],
-      "repeat": null,
-      "showTitle": true,
-      "title": "Workflow Stats"
-    },
-    {
-      "collapse": true,
-      "editable": true,
-      "height": "250px",
-      "panels": [
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": 0
+          }
+        },
         {
           "aliasColors": {},
           "bars": false,
@@ -785,6 +916,15 @@
           "description": null,
           "editable": true,
           "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": ""
+            }
+          },
           "fill": 1,
           "grid": {
             "threshold1": null,
@@ -792,6 +932,7 @@
             "threshold2": null,
             "threshold2Color": "rgba(234, 112, 112, 0.22)"
           },
+          "gridPos": null,
           "height": null,
           "hideTimeOverride": false,
           "id": 8,
@@ -817,6 +958,7 @@
           "linewidth": 2,
           "links": [],
           "maxDataPoints": 100,
+          "maxPerRow": null,
           "minSpan": null,
           "nullPointMode": "connected",
           "options": {
@@ -828,62 +970,70 @@
           "points": false,
           "renderer": "flot",
           "repeat": null,
+          "repeatDirection": null,
           "seriesOverrides": [],
           "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "datasource": "",
-              "expr": "kube_resourcequota{resource=\"limits.cpu\", namespace=\"$project-$domain\", type=\"hard\"}",
+              "datasource": null,
+              "expr": "(kube_resourcequota{resource=\"limits.memory\", namespace=\"$project-$domain\", type=\"hard\"})*9.5367e-7",
               "format": "time_series",
               "hide": false,
               "instant": false,
               "interval": "",
               "intervalFactor": 2,
-              "legendFormat": "max cpu",
+              "legendFormat": "Memory limit (MiB)",
               "metric": "",
+              "query": "(kube_resourcequota{resource=\"limits.memory\", namespace=\"$project-$domain\", type=\"hard\"})*9.5367e-7",
               "refId": "A",
               "step": 10,
               "target": ""
             },
             {
-              "datasource": "",
-              "expr": "kube_resourcequota{resource=\"limits.cpu\", namespace=\"$project-$domain\", type=\"used\"}",
+              "datasource": null,
+              "expr": "(kube_resourcequota{resource=\"limits.memory\", namespace=\"$project-$domain\", type=\"used\"})*9.5367e-7",
               "format": "time_series",
               "hide": false,
               "instant": false,
               "interval": "",
               "intervalFactor": 2,
-              "legendFormat": "used cpu",
+              "legendFormat": "Memory requested (MiB)",
               "metric": "",
+              "query": "(kube_resourcequota{resource=\"limits.memory\", namespace=\"$project-$domain\", type=\"used\"})*9.5367e-7",
               "refId": "B",
               "step": 10,
               "target": ""
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "CPU Limits vs usage",
+          "title": "Memory limit vs requested by namespace (MiB)",
           "tooltip": {
             "msResolution": true,
             "shared": true,
             "sort": 0,
             "value_type": "cumulative"
           },
+          "transformations": [],
           "transparent": false,
           "type": "graph",
           "xaxis": {
-            "show": true
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
           },
           "yaxes": [
             {
               "decimals": null,
-              "format": "ops",
+              "format": "short",
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": 0,
+              "min": null,
               "show": true
             },
             {
@@ -892,11 +1042,25 @@
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": 0,
+              "min": null,
               "show": true
             }
-          ]
-        },
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": 0
+          }
+        }
+      ],
+      "repeat": null,
+      "showTitle": true,
+      "title": "Kubernetes Resource Quota Usage"
+    },
+    {
+      "collapse": true,
+      "editable": true,
+      "height": "250px",
+      "panels": [
         {
           "aliasColors": {},
           "bars": false,
@@ -905,6 +1069,15 @@
           "description": null,
           "editable": true,
           "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": ""
+            }
+          },
           "fill": 1,
           "grid": {
             "threshold1": null,
@@ -912,6 +1085,7 @@
             "threshold2": null,
             "threshold2Color": "rgba(234, 112, 112, 0.22)"
           },
+          "gridPos": null,
           "height": null,
           "hideTimeOverride": false,
           "id": 9,
@@ -937,6 +1111,7 @@
           "linewidth": 2,
           "links": [],
           "maxDataPoints": 100,
+          "maxPerRow": null,
           "minSpan": null,
           "nullPointMode": "connected",
           "options": {
@@ -948,62 +1123,55 @@
           "points": false,
           "renderer": "flot",
           "repeat": null,
+          "repeatDirection": null,
           "seriesOverrides": [],
-          "span": 6,
+          "span": 4,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "datasource": "",
-              "expr": "kube_resourcequota{resource=\"limits.memory\", namespace=\"$project-$domain\", type=\"hard\"}",
+              "datasource": null,
+              "expr": "sum(kube_pod_status_phase{phase=\"Pending\"} * on(pod) group_left(label_task_name, label_node_id, label_workflow_name) kube_pod_labels{label_workflow_name=~\"$workflow\"}) by (namespace, label_task_name, label_node_id, label_workflow_name) > 0",
               "format": "time_series",
               "hide": false,
               "instant": false,
               "interval": "",
               "intervalFactor": 2,
-              "legendFormat": "max mem",
+              "legendFormat": "",
               "metric": "",
+              "query": "sum(kube_pod_status_phase{phase=\"Pending\"} * on(pod) group_left(label_task_name, label_node_id, label_workflow_name) kube_pod_labels{label_workflow_name=~\"$workflow\"}) by (namespace, label_task_name, label_node_id, label_workflow_name) > 0",
               "refId": "A",
-              "step": 10,
-              "target": ""
-            },
-            {
-              "datasource": "",
-              "expr": "kube_resourcequota{resource=\"limits.memory\", namespace=\"$project-$domain\", type=\"used\"}",
-              "format": "time_series",
-              "hide": false,
-              "instant": false,
-              "interval": "",
-              "intervalFactor": 2,
-              "legendFormat": "used mem",
-              "metric": "",
-              "refId": "B",
               "step": 10,
               "target": ""
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Mem Limits vs usage",
+          "title": "Pending Tasks",
           "tooltip": {
             "msResolution": true,
             "shared": true,
             "sort": 0,
             "value_type": "cumulative"
           },
+          "transformations": [],
           "transparent": false,
           "type": "graph",
           "xaxis": {
-            "show": true
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
           },
           "yaxes": [
             {
               "decimals": null,
-              "format": "ops",
+              "format": "short",
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": 0,
+              "min": null,
               "show": true
             },
             {
@@ -1012,15 +1180,223 @@
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": 0,
+              "min": null,
               "show": true
             }
-          ]
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": 0
+          }
+        },
+        {
+          "cacheTimeout": null,
+          "datasource": "${DS_PROM}",
+          "description": null,
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "fixedColor": "none",
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "fillOpacity": 80,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineWidth": 1,
+                "scaleDistribution": {
+                  "type": "linear"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": null,
+          "height": null,
+          "hideTimeOverride": false,
+          "id": 10,
+          "interval": null,
+          "links": [],
+          "maxDataPoints": 100,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "barRadius": 0.0,
+            "barWidth": 0.97,
+            "groupWidth": 0.7,
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "orientation": "auto",
+            "showValue": "true",
+            "stacking": "none",
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            },
+            "xTickLabelRotation": 0,
+            "xTickLabelSpacing": 0
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "span": 4,
+          "targets": [
+            {
+              "datasource": null,
+              "expr": "(100 * (max(container_memory_working_set_bytes{container!=\"\"} * on(pod) group_left(label_task_name, label_node_id, label_workflow_name) kube_pod_labels{namespace=~\"$project-$domain\",label_workflow_name=~\"$workflow\"} * on(pod) group_left(phase) kube_pod_status_phase{phase=\"Running\"}) by (namespace, pod, label_task_name, label_node_id, label_workflow_name) / max(cluster:namespace:pod_memory:active:kube_pod_container_resource_limits{container!=\"\"} * on(pod) group_left(label_task_name, label_node_id, label_workflow_name) kube_pod_labels * on(pod) group_left(phase) kube_pod_status_phase{phase=\"Running\"}) by (namespace, pod, label_task_name, label_node_id, label_workflow_name))) > 0",
+              "format": "time_series",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "",
+              "metric": "",
+              "query": "(100 * (max(container_memory_working_set_bytes{container!=\"\"} * on(pod) group_left(label_task_name, label_node_id, label_workflow_name) kube_pod_labels{namespace=~\"$project-$domain\",label_workflow_name=~\"$workflow\"} * on(pod) group_left(phase) kube_pod_status_phase{phase=\"Running\"}) by (namespace, pod, label_task_name, label_node_id, label_workflow_name) / max(cluster:namespace:pod_memory:active:kube_pod_container_resource_limits{container!=\"\"} * on(pod) group_left(label_task_name, label_node_id, label_workflow_name) kube_pod_labels * on(pod) group_left(phase) kube_pod_status_phase{phase=\"Running\"}) by (namespace, pod, label_task_name, label_node_id, label_workflow_name))) > 0",
+              "refId": "A",
+              "step": 10,
+              "target": ""
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Memory Usage per Task(%)",
+          "transformations": [],
+          "transparent": false,
+          "type": "barchart"
+        },
+        {
+          "cacheTimeout": null,
+          "datasource": "${DS_PROM}",
+          "description": null,
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "fixedColor": "none",
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "fillOpacity": 80,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineWidth": 1,
+                "scaleDistribution": {
+                  "type": "linear"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": null,
+          "height": null,
+          "hideTimeOverride": false,
+          "id": 11,
+          "interval": null,
+          "links": [],
+          "maxDataPoints": 100,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "barRadius": 0.0,
+            "barWidth": 0.97,
+            "groupWidth": 0.7,
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "orientation": "auto",
+            "showValue": "true",
+            "stacking": "none",
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            },
+            "xTickLabelRotation": 0,
+            "xTickLabelSpacing": 0
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "span": 4,
+          "targets": [
+            {
+              "datasource": null,
+              "expr": "(100 * (sum(rate(container_cpu_usage_seconds_total{image!=\"\"}[2m]) * on(pod) group_left(label_task_name, label_node_id, label_workflow_name) kube_pod_labels{namespace=~\"$project-$domain\",label_workflow_name=~\"$workflow\"} * on(pod) group_left(phase) kube_pod_status_phase{phase=\"Running\"}) by (namespace, pod, label_task_name, label_node_id, label_workflow_name) / sum(cluster:namespace:pod_cpu:active:kube_pod_container_resource_limits{container!=\"\"} * on(pod) group_left(label_task_name, label_node_id, label_workflow_name) kube_pod_labels * on(pod) group_left(phase) kube_pod_status_phase{phase=\"Running\"}) by (namespace, pod, label_task_name, label_node_id, label_workflow_name))) > 0",
+              "format": "time_series",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "",
+              "metric": "",
+              "query": "(100 * (sum(rate(container_cpu_usage_seconds_total{image!=\"\"}[2m]) * on(pod) group_left(label_task_name, label_node_id, label_workflow_name) kube_pod_labels{namespace=~\"$project-$domain\",label_workflow_name=~\"$workflow\"} * on(pod) group_left(phase) kube_pod_status_phase{phase=\"Running\"}) by (namespace, pod, label_task_name, label_node_id, label_workflow_name) / sum(cluster:namespace:pod_cpu:active:kube_pod_container_resource_limits{container!=\"\"} * on(pod) group_left(label_task_name, label_node_id, label_workflow_name) kube_pod_labels * on(pod) group_left(phase) kube_pod_status_phase{phase=\"Running\"}) by (namespace, pod, label_task_name, label_node_id, label_workflow_name))) > 0",
+              "refId": "A",
+              "step": 10,
+              "target": ""
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "CPU Usage per Task(%)",
+          "transformations": [],
+          "transparent": false,
+          "type": "barchart"
         }
       ],
       "repeat": null,
       "showTitle": true,
-      "title": "Kubernetes Quota Usage stats"
+      "title": "Task stats"
     },
     {
       "collapse": true,
@@ -1035,6 +1411,15 @@
           "description": null,
           "editable": true,
           "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": ""
+            }
+          },
           "fill": 1,
           "grid": {
             "threshold1": null,
@@ -1042,218 +1427,7 @@
             "threshold2": null,
             "threshold2Color": "rgba(234, 112, 112, 0.22)"
           },
-          "height": null,
-          "hideTimeOverride": false,
-          "id": 10,
-          "interval": null,
-          "isNew": true,
-          "legend": {
-            "alignAsTable": false,
-            "avg": false,
-            "current": false,
-            "hideEmpty": false,
-            "hideZero": false,
-            "max": false,
-            "min": false,
-            "rightSide": false,
-            "show": true,
-            "sideWidth": null,
-            "sort": null,
-            "sortDesc": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "maxDataPoints": 100,
-          "minSpan": null,
-          "nullPointMode": "connected",
-          "options": {
-            "alertThreshold": true,
-            "dataLinks": []
-          },
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "repeat": null,
-          "seriesOverrides": [],
-          "span": 4,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "datasource": "",
-              "expr": "sum(kube_pod_container_status_waiting * on(pod) group_left(label_execution_id, label_task_name, label_node_id, label_workflow_name) kube_pod_labels{label_execution_id !=\"\",namespace=~\"$project-$domain\",label_workflow_name=~\"$workflow\"}) by (namespace, label_execution_id, label_task_name, label_node_id, label_workflow_name) > 0",
-              "format": "time_series",
-              "hide": false,
-              "instant": false,
-              "interval": "",
-              "intervalFactor": 2,
-              "legendFormat": "",
-              "metric": "",
-              "refId": "A",
-              "step": 10,
-              "target": ""
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Pending tasks",
-          "tooltip": {
-            "msResolution": true,
-            "shared": true,
-            "sort": 0,
-            "value_type": "cumulative"
-          },
-          "transparent": false,
-          "type": "graph",
-          "xaxis": {
-            "show": true
-          },
-          "yaxes": [
-            {
-              "decimals": null,
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "decimals": null,
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "cacheTimeout": null,
-          "datasource": "${DS_PROM}",
-          "description": null,
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "height": null,
-          "hideTimeOverride": false,
-          "id": 11,
-          "interval": null,
-          "isNew": true,
-          "legend": {
-            "alignAsTable": false,
-            "avg": false,
-            "current": false,
-            "hideEmpty": false,
-            "hideZero": false,
-            "max": false,
-            "min": false,
-            "rightSide": false,
-            "show": true,
-            "sideWidth": null,
-            "sort": null,
-            "sortDesc": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "maxDataPoints": 100,
-          "minSpan": null,
-          "nullPointMode": "connected",
-          "options": {
-            "alertThreshold": true,
-            "dataLinks": []
-          },
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "repeat": null,
-          "seriesOverrides": [],
-          "span": 4,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "datasource": "",
-              "expr": "(max(container_memory_rss{image!=\"\"} * on(pod) group_left(label_execution_id, label_task_name, label_node_id, label_workflow_name) kube_pod_labels{label_execution_id !=\"\",namespace=~\"$project-$domain\",label_workflow_name=~\"$workflow\"} * on(pod) group_left(phase) kube_pod_status_phase{phase=\"Running\"}) by (namespace, pod, label_execution_id, label_task_name, label_node_id, label_workflow_name) / max(kube_pod_container_resource_limits_memory_bytes{container!=\"\"} * on(pod) group_left(label_execution_id, label_task_name, label_node_id, label_workflow_name) kube_pod_labels{label_execution_id !=\"\"} * on(pod) group_left(phase) kube_pod_status_phase{phase=\"Running\"}) by (namespace, pod, label_execution_id, label_task_name, label_node_id, label_workflow_name)) > 0",
-              "format": "time_series",
-              "hide": false,
-              "instant": false,
-              "interval": "",
-              "intervalFactor": 2,
-              "legendFormat": "",
-              "metric": "",
-              "refId": "A",
-              "step": 10,
-              "target": ""
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Memory Usage Percentage",
-          "tooltip": {
-            "msResolution": true,
-            "shared": true,
-            "sort": 0,
-            "value_type": "cumulative"
-          },
-          "transparent": false,
-          "type": "graph",
-          "xaxis": {
-            "show": true
-          },
-          "yaxes": [
-            {
-              "decimals": null,
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "decimals": null,
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "cacheTimeout": null,
-          "datasource": "${DS_PROM}",
-          "description": null,
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
+          "gridPos": null,
           "height": null,
           "hideTimeOverride": false,
           "id": 12,
@@ -1279,6 +1453,7 @@
           "linewidth": 2,
           "links": [],
           "maxDataPoints": 100,
+          "maxPerRow": null,
           "minSpan": null,
           "nullPointMode": "connected",
           "options": {
@@ -1290,14 +1465,15 @@
           "points": false,
           "renderer": "flot",
           "repeat": null,
+          "repeatDirection": null,
           "seriesOverrides": [],
-          "span": 4,
+          "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "datasource": "",
-              "expr": "(sum(rate(container_cpu_usage_seconds_total{image!=\"\"}[2m]) * on(pod) group_left(label_execution_id, label_task_name, label_node_id, label_workflow_name) kube_pod_labels{label_execution_id !=\"\",namespace=~\"$project-$domain\",label_workflow_name=~\"$workflow\"} * on(pod) group_left(phase) kube_pod_status_phase{phase=\"Running\"}) by (namespace, pod, label_execution_id, label_task_name, label_node_id, label_workflow_name) / sum(kube_pod_container_resource_limits_cpu_cores{container!=\"\"} * on(pod) group_left(label_execution_id, label_task_name, label_node_id, label_workflow_name) kube_pod_labels{label_execution_id !=\"\"} * on(pod) group_left(phase) kube_pod_status_phase{phase=\"Running\"}) by (namespace, pod, label_execution_id, label_task_name, label_node_id, label_workflow_name)) > 0",
+              "datasource": null,
+              "expr": "sum(rate(flyte:propeller:all:node:user_error_duration_ms_count{project=~\"$project\",domain=~\"$domain\",wf=~\"$project:$domain:$workflow\"}[5m]))",
               "format": "time_series",
               "hide": false,
               "instant": false,
@@ -1305,24 +1481,30 @@
               "intervalFactor": 2,
               "legendFormat": "",
               "metric": "",
+              "query": "sum(rate(flyte:propeller:all:node:user_error_duration_ms_count{project=~\"$project\",domain=~\"$domain\",wf=~\"$project:$domain:$workflow\"}[5m]))",
               "refId": "A",
               "step": 10,
               "target": ""
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "CPU Usage Percentage",
+          "title": "User error rate",
           "tooltip": {
             "msResolution": true,
             "shared": true,
             "sort": 0,
             "value_type": "cumulative"
           },
+          "transformations": [],
           "transparent": false,
           "type": "graph",
           "xaxis": {
-            "show": true
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
           },
           "yaxes": [
             {
@@ -1331,7 +1513,7 @@
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": 0,
+              "min": null,
               "show": true
             },
             {
@@ -1340,21 +1522,15 @@
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": 0,
+              "min": null,
               "show": true
             }
-          ]
-        }
-      ],
-      "repeat": null,
-      "showTitle": true,
-      "title": "Task stats"
-    },
-    {
-      "collapse": true,
-      "editable": true,
-      "height": "250px",
-      "panels": [
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": 0
+          }
+        },
         {
           "aliasColors": {},
           "bars": false,
@@ -1363,6 +1539,15 @@
           "description": null,
           "editable": true,
           "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": ""
+            }
+          },
           "fill": 1,
           "grid": {
             "threshold1": null,
@@ -1370,6 +1555,7 @@
             "threshold2": null,
             "threshold2Color": "rgba(234, 112, 112, 0.22)"
           },
+          "gridPos": null,
           "height": null,
           "hideTimeOverride": false,
           "id": 13,
@@ -1395,6 +1581,7 @@
           "linewidth": 2,
           "links": [],
           "maxDataPoints": 100,
+          "maxPerRow": null,
           "minSpan": null,
           "nullPointMode": "connected",
           "options": {
@@ -1406,119 +1593,14 @@
           "points": false,
           "renderer": "flot",
           "repeat": null,
+          "repeatDirection": null,
           "seriesOverrides": [],
           "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "datasource": "",
-              "expr": "sum(rate(flyte:propeller:all:node:user_error_duration_ms_count{project=~\"$project\",domain=~\"$domain\",wf=~\"$project:$domain:$workflow\"}[5m]))",
-              "format": "time_series",
-              "hide": false,
-              "instant": false,
-              "interval": "",
-              "intervalFactor": 2,
-              "legendFormat": "",
-              "metric": "",
-              "refId": "A",
-              "step": 10,
-              "target": ""
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "User errors",
-          "tooltip": {
-            "msResolution": true,
-            "shared": true,
-            "sort": 0,
-            "value_type": "cumulative"
-          },
-          "transparent": false,
-          "type": "graph",
-          "xaxis": {
-            "show": true
-          },
-          "yaxes": [
-            {
-              "decimals": null,
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "decimals": null,
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "cacheTimeout": null,
-          "datasource": "${DS_PROM}",
-          "description": null,
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "height": null,
-          "hideTimeOverride": false,
-          "id": 14,
-          "interval": null,
-          "isNew": true,
-          "legend": {
-            "alignAsTable": false,
-            "avg": false,
-            "current": false,
-            "hideEmpty": false,
-            "hideZero": false,
-            "max": false,
-            "min": false,
-            "rightSide": false,
-            "show": true,
-            "sideWidth": null,
-            "sort": null,
-            "sortDesc": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "maxDataPoints": 100,
-          "minSpan": null,
-          "nullPointMode": "connected",
-          "options": {
-            "alertThreshold": true,
-            "dataLinks": []
-          },
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "repeat": null,
-          "seriesOverrides": [],
-          "span": 6,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "datasource": "",
+              "datasource": null,
               "expr": "sum(rate(flyte:propeller:all:node:system_error_duration_ms_count{project=~\"$project\",domain=~\"$domain\",wf=~\"$project:$domain:$workflow\"}[5m]))",
               "format": "time_series",
               "hide": false,
@@ -1527,24 +1609,30 @@
               "intervalFactor": 2,
               "legendFormat": "",
               "metric": "",
+              "query": "sum(rate(flyte:propeller:all:node:system_error_duration_ms_count{project=~\"$project\",domain=~\"$domain\",wf=~\"$project:$domain:$workflow\"}[5m]))",
               "refId": "A",
               "step": 10,
               "target": ""
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "System errors",
+          "title": "System error rate",
           "tooltip": {
             "msResolution": true,
             "shared": true,
             "sort": 0,
             "value_type": "cumulative"
           },
+          "transformations": [],
           "transparent": false,
           "type": "graph",
           "xaxis": {
-            "show": true
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
           },
           "yaxes": [
             {
@@ -1553,7 +1641,7 @@
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": 0,
+              "min": null,
               "show": true
             },
             {
@@ -1562,15 +1650,19 @@
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": 0,
+              "min": null,
               "show": true
             }
-          ]
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": 0
+          }
         }
       ],
       "repeat": null,
       "showTitle": true,
-      "title": "Error (System vs user)"
+      "title": "Error (System vs User)"
     }
   ],
   "schemaVersion": 12,
@@ -1586,7 +1678,11 @@
     "list": [
       {
         "allValue": null,
+        "auto": false,
+        "auto_count": 30,
+        "auto_min": "10s",
         "current": {
+          "selected": false,
           "tags": [],
           "text": null,
           "value": null
@@ -1609,7 +1705,11 @@
       },
       {
         "allValue": null,
+        "auto": false,
+        "auto_count": 30,
+        "auto_min": "10s",
         "current": {
+          "selected": false,
           "tags": [],
           "text": null,
           "value": null
@@ -1632,7 +1732,11 @@
       },
       {
         "allValue": ".*",
+        "auto": false,
+        "auto_count": 30,
+        "auto_min": "10s",
         "current": {
+          "selected": false,
           "tags": [],
           "text": null,
           "value": null
@@ -1660,6 +1764,8 @@
     "to": "now"
   },
   "timepicker": {
+    "hidden": false,
+    "nowDelay": null,
     "refresh_intervals": [
       "5s",
       "10s",

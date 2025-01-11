@@ -10,7 +10,7 @@ COPY images/manifest.txt images/preload ./
 RUN --security=insecure ./preload manifest.txt
 
 
-FROM --platform=${BUILDPLATFORM} golang:1.19-bullseye AS bootstrap
+FROM --platform=${BUILDPLATFORM} golang:1.22-bullseye AS bootstrap
 
 ARG TARGETARCH
 ENV CGO_ENABLED 0
@@ -25,7 +25,7 @@ RUN --mount=type=cache,target=/root/.cache/go-build --mount=type=cache,target=/r
     go build -o dist/flyte-sandbox-bootstrap cmd/bootstrap/main.go
 
 
-FROM rancher/k3s:v1.24.4-k3s1
+FROM rancher/k3s:v1.29.0-k3s1
 
 ARG TARGETARCH
 
@@ -41,6 +41,9 @@ COPY bin/ /bin/
 COPY --from=bootstrap /flyteorg/build/dist/flyte-sandbox-bootstrap /bin/
 
 VOLUME /var/lib/flyte/storage
+
+# Set environment variable for picking up additional CA certificates
+ENV SSL_CERT_DIR /var/lib/flyte/config/ca-certificates
 
 ENTRYPOINT [ "/bin/k3d-entrypoint.sh" ]
 CMD [ "server", "--disable=traefik", "--disable=servicelb" ]

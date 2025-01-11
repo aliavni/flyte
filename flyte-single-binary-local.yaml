@@ -1,7 +1,10 @@
 # This is a sample configuration file for running single-binary Flyte locally against
 # a sandbox.
 admin:
-  endpoint: localhost:8089
+  # This endpoint is used by flytepropeller to talk to admin
+  # and artifacts to talk to admin,
+  # and _also_, admin to talk to artifacts
+  endpoint: localhost:30080
   insecure: true
 
 catalog-cache:
@@ -11,16 +14,18 @@ catalog-cache:
 
 cluster_resources:
   standaloneDeployment: false
-  templatePath: $HOME/.flyte/cluster-resource-templates
+  templatePath: $HOME/.flyte/sandbox/cluster-resource-templates
 
 logger:
   show-source: true
-  level: 6
+  level: 5
 
 propeller:
   create-flyteworkflow-crd: true
   kube-config: $HOME/.flyte/sandbox/kubeconfig
   rawoutput-prefix: s3://my-s3-bucket/data
+  literal-offloading-config:
+    enabled: true
 
 server:
   kube-config: $HOME/.flyte/sandbox/kubeconfig
@@ -38,6 +43,8 @@ tasks:
       - container
       - sidecar
       - K8S-ARRAY
+      - agent-service
+      - echo
     default-for-task-types:
       - container: container
       - container_array: K8S-ARRAY
@@ -50,9 +57,10 @@ plugins:
     stackdriver-enabled: false
   k8s:
     default-env-vars:
-    - FLYTE_AWS_ENDPOINT: http://flyte-sandbox-minio.flyte:9000
-    - FLYTE_AWS_ACCESS_KEY_ID: minio
-    - FLYTE_AWS_SECRET_ACCESS_KEY: miniostorage
+      - FLYTE_AWS_ENDPOINT: http://flyte-sandbox-minio.flyte:9000
+      - FLYTE_AWS_ACCESS_KEY_ID: minio
+      - FLYTE_AWS_SECRET_ACCESS_KEY: miniostorage
+    image-pull-policy: Always # Helps in better iteration of flytekit changes
   k8s-array:
     logs:
       config:
@@ -69,7 +77,6 @@ database:
     port: 30001
     dbname: flyte
     options: "sslmode=disable"
-
 storage:
   type: stow
   stow:
@@ -83,3 +90,13 @@ storage:
       access_key_id: minio
       secret_key: miniostorage
   container: my-s3-bucket
+  limits:
+    maxDownloadMBs: 1000
+
+task_resources:
+  defaults:
+    cpu: 500m
+    memory: 500Mi
+  limits:
+    cpu: 4
+    memory: 4Gi
