@@ -13,6 +13,22 @@ metadata:
     app.kubernetes.io/managed-by: Helm
   annotations:
 ---
+# Source: flyte-binary/templates/config-secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: flyte-flyte-binary-config-secret
+  namespace: "flyte"
+  labels:
+    helm.sh/chart: flyte-binary-v0.1.10
+    app.kubernetes.io/name: flyte-binary
+    app.kubernetes.io/instance: flyte
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+type: Opaque
+stringData:
+---
 # Source: flyte-binary/templates/cluster-resource-templates.yaml
 apiVersion: v1
 kind: ConfigMap
@@ -63,22 +79,42 @@ data:
       level: 1
     propeller:
       create-flyteworkflow-crd: true
+      literal-offloading-config:
+        enabled: true
     webhook:
       certDir: /var/run/flyte/certs
       localCert: true
       secretName: flyte-flyte-binary-webhook-secret
       serviceName: flyte-flyte-binary-webhook
       servicePort: 443
+    flyte:
+      admin:
+        disableClusterResourceManager: false
+        disableScheduler: false
+        disabled: false
+        seedProjects:
+        - flytesnacks
+        seedProjectsWithDetails:
+        - description: Default project setup.
+          name: flytesnacks
+      dataCatalog:
+        disabled: false
+      propeller:
+        disableWebhook: false
+        disabled: false
   001-plugins.yaml: |
     tasks:
       task-plugins:
-        enabled-plugins:
-          - container
-          - sidecar
-          - K8S-ARRAY
         default-for-task-types:
-          - container: container
-          - container_array: K8S-ARRAY
+          container: container
+          container_array: k8s-array
+          sidecar: sidecar
+        enabled-plugins:
+        - container
+        - sidecar
+        - k8s-array
+        - agent-service
+        - echo
     plugins:
       logs:
         kubernetes-enabled: false
@@ -86,7 +122,7 @@ data:
         stackdriver-enabled: false
       k8s:
         co-pilot:
-          image: "cr.flyte.org/flyteorg/flytecopilot:v0.0.28"
+          image: "cr.flyte.org/flyteorg/flytecopilot:v1.14.1"
       k8s-array:
         logs:
           config:
@@ -97,7 +133,6 @@ data:
     database:
       postgres:
         username: postgres
-        passwordPath: 
         host: 127.0.0.1
         port: 5432
         dbname: flyte
@@ -136,6 +171,7 @@ rules:
     - namespaces
     - resourcequotas
     - secrets
+    - serviceaccounts
     verbs:
     - create
     - get
@@ -226,11 +262,36 @@ subjects:
     name: flyte-flyte-binary
     namespace: "flyte"
 ---
-# Source: flyte-binary/templates/service/main.yaml
+# Source: flyte-binary/templates/service/grpc.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: flyte-flyte-binary
+  name: flyte-flyte-binary-grpc
+  namespace: "flyte"
+  labels:
+    helm.sh/chart: flyte-binary-v0.1.10
+    app.kubernetes.io/name: flyte-binary
+    app.kubernetes.io/instance: flyte
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+spec:
+  type: ClusterIP
+  ports:
+    - name: grpc
+      port: 8089
+      targetPort: grpc
+      nodePort: null
+  selector:
+    app.kubernetes.io/name: flyte-binary
+    app.kubernetes.io/instance: flyte
+    app.kubernetes.io/component: flyte-binary
+---
+# Source: flyte-binary/templates/service/http.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: flyte-flyte-binary-http
   namespace: "flyte"
   labels:
     helm.sh/chart: flyte-binary-v0.1.10
@@ -246,13 +307,10 @@ spec:
       port: 8088
       targetPort: http
       nodePort: null
-    - name: grpc
-      port: 8089
-      targetPort: grpc
-      nodePort: null
   selector:
     app.kubernetes.io/name: flyte-binary
     app.kubernetes.io/instance: flyte
+    app.kubernetes.io/component: flyte-binary
 ---
 # Source: flyte-binary/templates/service/webhook.yaml
 apiVersion: v1
@@ -276,6 +334,7 @@ spec:
   selector:
     app.kubernetes.io/name: flyte-binary
     app.kubernetes.io/instance: flyte
+    app.kubernetes.io/component: flyte-binary
 ---
 # Source: flyte-binary/templates/deployment.yaml
 apiVersion: apps/v1
@@ -298,13 +357,16 @@ spec:
     matchLabels:
       app.kubernetes.io/name: flyte-binary
       app.kubernetes.io/instance: flyte
+      app.kubernetes.io/component: flyte-binary
   template:
     metadata:
       labels:
         app.kubernetes.io/name: flyte-binary
         app.kubernetes.io/instance: flyte
+        app.kubernetes.io/component: flyte-binary
       annotations:
-        checksum/configuration: 9682bff338b1d0313b670cf7ad5fda38aa80bf1af1ef1af1fa19ce1c2949c0ea
+        checksum/configuration: c4d2a06ca3d956873404b4a1768afc7f8e23b111adac749590cda61ef1f8df3c
+        checksum/configuration-secret: d5d93f4e67780b21593dc3799f0f6682aab0765e708e4020939975d14d44f929
         checksum/cluster-resource-templates: 7dfa59f3d447e9c099b8f8ffad3af466fecbc9cf9f8c97295d9634254a55d4ae
     spec:
       serviceAccountName: flyte-flyte-binary
@@ -353,10 +415,12 @@ spec:
             httpGet:
               path: /healthcheck
               port: http
+            initialDelaySeconds: 30
           readinessProbe:
             httpGet:
               path: /healthcheck
               port: http
+            initialDelaySeconds: 30
           volumeMounts:
             - name: cluster-resource-templates
               mountPath: /etc/flyte/cluster-resource-templates
@@ -366,10 +430,16 @@ spec:
               mountPath: /var/run/flyte
       volumes:
         - name: cluster-resource-templates
-          configMap:
-            name: flyte-flyte-binary-cluster-resource-templates
+          projected:
+            sources:
+            - configMap:
+                name: flyte-flyte-binary-cluster-resource-templates
         - name: config
-          configMap:
-            name: flyte-flyte-binary-config
+          projected:
+            sources:
+            - configMap:
+                name: flyte-flyte-binary-config
+            - secret:
+                name: flyte-flyte-binary-config-secret
         - name: state
           emptyDir: {}

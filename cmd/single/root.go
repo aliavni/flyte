@@ -6,12 +6,14 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/flyteorg/flytestdlib/logger"
+	"github.com/flyteorg/flyte/flytestdlib/logger"
 
-	"github.com/flyteorg/flytestdlib/config"
-	"github.com/flyteorg/flytestdlib/config/viper"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
+
+	"github.com/flyteorg/flyte/flytestdlib/config"
+	"github.com/flyteorg/flyte/flytestdlib/config/viper"
+	_ "github.com/flyteorg/flyte/flytestdlib/promutils"
 )
 
 var (

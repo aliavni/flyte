@@ -5,7 +5,10 @@ userSettings:
   googleProjectId: <PROJECT-ID>
   dbHost: <CLOUD-SQL-IP>
   dbPassword: <DBPASSWORD>
-  bucketName: <BUCKETNAME>
+# These two storage buckets could be the same or you could specify different buckets if required. Both keys are required.
+# Learn more https://docs.flyte.org/en/latest/concepts/data_management.html#understand-how-flyte-handles-data 
+  bucketName: <METADATA_BUCKET_NAME> 
+  rawDataBucketName: <RAW_DATA_BUCKET_NAME> 
   hostName: <HOSTNAME>
 
 #
@@ -14,6 +17,8 @@ userSettings:
 
 flyteadmin:
   replicaCount: 1
+  serviceMonitor:
+    enabled: false
   serviceAccount:
     # -- If the service account is created by you, make this false, else a new service account will be created and the flyteadmin role will be added
     # you can change the name of this role
@@ -82,6 +87,10 @@ datacatalog:
 flytepropeller:
   replicaCount: 1
   manager: false
+  serviceMonitor:
+    enabled: false
+  service:
+    enabled: false
   serviceAccount:
     # -- If the service account is created by you, make this false, else a new service account will be created and the iam-role-flyte will be added
     # you can change the name of this role
@@ -107,6 +116,12 @@ flytepropeller:
             matchLabels:
               app.kubernetes.io/name: flytepropeller
           topologyKey: kubernetes.io/hostname
+
+#
+# FLYTE_AGENT
+#
+flyteagent:
+  enabled: false
 
 #
 # FLYTECONSOLE
@@ -220,7 +235,8 @@ configmap:
   adminServer:
     server:
       httpPort: 8088
-      grpcPort: 8089
+      grpc:
+        port: 8089
       security:
         secure: false
         useAuth: false
@@ -255,7 +271,7 @@ configmap:
 
   core:
     propeller:
-      rawoutput-prefix: "gs://{{ .Values.userSettings.bucketName }}/"
+      rawoutput-prefix: "gs://{{ .Values.userSettings.rawDataBucketName }}/"
       workers: 40
       gc-interval: 12h
       max-workflow-retries: 50
@@ -280,6 +296,8 @@ configmap:
           - container
           - sidecar
           - k8s-array
+          - agent-service
+          - echo
         default-for-task-types:
           container: container
           sidecar: sidecar

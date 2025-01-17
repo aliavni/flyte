@@ -1,0 +1,22 @@
+run:
+  skip-dirs:
+    - pkg/client
+    - gen
+linters:
+  disable-all: true
+  enable:
+    - errcheck
+    - gosec
+    - goconst
+    - goimports
+    - gosimple
+    - govet
+    - ineffassign
+    - misspell
+    - nakedret
+    - staticcheck
+    - typecheck
+    - unconvert
+    - unparam
+    - unused
+    - protogetter
